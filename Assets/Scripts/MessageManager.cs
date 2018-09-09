@@ -36,7 +36,6 @@ public sealed class MessageManager : MonoBehaviour{
     {
         _gameUI = GameObject.FindGameObjectWithTag("GameUI");
     }
-
     /* Сообщение при взаимодействии
      * @arg1 - true/false - показать/скрыть
     */ 
