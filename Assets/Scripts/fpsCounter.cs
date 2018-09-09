@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class fpsCounter : MonoBehaviour {
 
+    [SerializeField]
     private Text fps;
 
     private void Start()
