@@ -1,0 +1,11 @@
+PlayText = Начать игру
+LoadGameText = Загрузить игру
+SettingsText = Настройки
+ExitText = Выход
+AttackKey = Атака
+RightKey = Вправо
+LeftKey = Влево
+CrouchKey = Присесть
+JumpKey = Прыжок
+PressKey = Нажмите кнопку
+UseKey = Использовать

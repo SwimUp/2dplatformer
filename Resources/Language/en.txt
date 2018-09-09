@@ -1,0 +1,11 @@
+PlayText = Start game
+LoadGameText = Load Game
+SettingsText = Settings
+ExitText = Exit
+AttackKey = Attack
+RightKey = Right move
+LeftKey = Left move
+CrouchKey = Crouch
+JumpKey = Jump
+PressKey = Press Key
+UseKey = Use
