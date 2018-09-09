@@ -7,6 +7,7 @@ public sealed class MessageManager : MonoBehaviour{
 
     public static MessageManager instance = null;
 
+    /* Насколько поднято будет сообщение */
     [SerializeField]
     private float _upPos;
     private bool _isInit = false;
@@ -35,6 +36,7 @@ public sealed class MessageManager : MonoBehaviour{
     {
         _gameUI = GameObject.FindGameObjectWithTag("GameUI");
     }
+
     /* Сообщение при взаимодействии
      * @arg1 - true/false - показать/скрыть
     */ 
