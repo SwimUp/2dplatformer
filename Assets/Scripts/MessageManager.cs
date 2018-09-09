@@ -7,6 +7,8 @@ public sealed class MessageManager : MonoBehaviour{
 
     public static MessageManager instance = null;
 
+    [SerializeField]
+    private float _upPos;
     private bool _isInit = false;
     private static GameObject _gameUI;
     public static GameObject GameUI
@@ -41,7 +43,7 @@ public sealed class MessageManager : MonoBehaviour{
         Vector3 playerPos = Player.instance.gameObject.transform.position;
         Vector3 newPos = new Vector3(
             playerPos.x,
-            playerPos.y + 0.23f,
+            playerPos.y + instance._upPos,
             playerPos.z
         );
 

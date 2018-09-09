@@ -10290,6 +10290,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be5e97ed37ea8ca4f8be32b7874cad28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _upPos: 0.2
   _interactMessageUI: {fileID: 136025855}
   _systemMessageUI: {fileID: 0}
 --- !u!1 &1648607519
