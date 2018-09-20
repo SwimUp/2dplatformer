@@ -7,7 +7,7 @@ public sealed class SettingsManager : MonoBehaviour {
 
     public static SettingsManager instance;
 
-    public static Dictionary<string, string> UserSettings = new Dictionary<string, string>();
+    public static readonly Dictionary<string, string> UserSettings = new Dictionary<string, string>();
 
     private void Awake()
     {
@@ -28,7 +28,12 @@ public sealed class SettingsManager : MonoBehaviour {
         }
 
         settings = (Settings)Utility.DeserializeData(_settingsPath, typeof(Settings));
-        UserSettings = settings.SettingsList.ToDictionary(k => k.Key, v => v.Value);
+        int i;
+        for(i = 0; i < settings.SettingsList.Count; i++)
+        {
+            SettingsData data = settings.SettingsList[i];
+            AddSettings(data.Key, data.Value);
+        }
         
     }
     private static bool AddSettings(string Name, string Value)
