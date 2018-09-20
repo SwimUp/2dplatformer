@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using System;
@@ -9,15 +9,6 @@ public sealed class InputManager : MonoBehaviour {
     public static InputManager instance;
 
     public static readonly Dictionary<string, KeyCode> KeyBindings = new Dictionary<string, KeyCode>();
-    private string[] _basicKeys = new string[]
-    {
-        "RightKey = D",
-        "LeftKey = A",
-        "JumpKey = Space",
-        "CrouchKey = C",
-        "AttackKey = Mouse0",
-        "UseKey = E"
-    };
 
     private void Awake()
     {
@@ -31,32 +22,27 @@ public sealed class InputManager : MonoBehaviour {
         if (GameLogic.isLoad)
             return;
 
+        InputData inputData = new InputData();
         string _keysPath = GameLogic.KeysPath;
 
         if (!File.Exists(_keysPath))
         {
-            File.Create(_keysPath).Close();
-            int i;
-            using (StreamWriter sw = new StreamWriter(_keysPath, false, System.Text.Encoding.Default))
-            {
-                for(i = 0; i < instance._basicKeys.Length; i++)
-                {
-                    sw.WriteLine(instance._basicKeys[i]);
-                }
-            }
+            inputData.SetDefault();
+            Utility.SerializeData(_keysPath, inputData);
         }
 
-        using (StreamReader sr = new StreamReader(_keysPath, System.Text.Encoding.Default))
+        inputData = (InputData)Utility.DeserializeData(_keysPath, typeof(InputData));
+
+        int i;
+        for(i = 0; i < inputData.InputList.Count; i++)
         {
-            string line;
-            string[] splitLine = new string[2];
-            while ((line = sr.ReadLine()) != null)
+            SettingsData data = inputData.InputList[i];
+            foreach (KeyCode KCode in Enum.GetValues(typeof(KeyCode)))
             {
-                line = line.Replace(" ", "");
-                splitLine = line.Split('=');
-                foreach (KeyCode KCode in Enum.GetValues(typeof(KeyCode)))
-                    if (KCode.ToString() == splitLine[1])
-                        AddNewKey(splitLine[0], KCode);
+                if(KCode.ToString() == data.Value)
+                {
+                    AddNewKey(data.Key, KCode);
+                }
             }
         }
     }
@@ -70,7 +56,6 @@ public sealed class InputManager : MonoBehaviour {
 
         KeyBindings.Add(Action, Key);
 
-
         return true;
     }
     public static bool UpdateKey(string Action, KeyCode NewKey)
@@ -81,5 +66,49 @@ public sealed class InputManager : MonoBehaviour {
         KeyBindings[Action] = NewKey;
 
         return true;
+    }
+    public static void SaveSettings()
+    {
+        InputData inputData = new InputData();
+
+        foreach (KeyValuePair<string, KeyCode> d in KeyBindings)
+        {
+            SettingsData data = new SettingsData(d.Key, d.Value.ToString());
+            inputData.InputList.Add(data);
+        }
+
+        Utility.SerializeData(GameLogic.KeysPath, inputData);
+    }
+}
+[Serializable]
+public sealed class InputData
+{
+    [System.Xml.Serialization.XmlArrayItem(ElementName = "Action")]
+    public List<SettingsData> InputList = new List<SettingsData>();
+
+    [NonSerialized]
+    private readonly Dictionary<string, string> _defaultSettings = new Dictionary<string, string>
+    {
+        {"RightKey", "D" },
+        {"LeftKey", "A" },
+        {"JumpKey", "Space" },
+        {"CrouchKey", "C" },
+        {"AttackKey", "Mouse0" },
+        {"UseKey", "E" }
+    };
+
+    public InputData()
+    {
+    }
+
+    public void SetDefault()
+    {
+        foreach(KeyValuePair<string,string> d in _defaultSettings)
+        {
+            InputList.Add
+                (
+                    new SettingsData(d.Key, d.Value)
+                );
+        }
     }
 }

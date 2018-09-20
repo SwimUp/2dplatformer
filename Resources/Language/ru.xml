@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<LanguageData xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Data>
+    <String>
+      <Key>PlayText</Key>
+      <Value>Начать игру</Value>
+    </String>
+    <String>
+      <Key>LoadGameText</Key>
+      <Value>Загрузить игру</Value>
+    </String>
+    <String>
+      <Key>SettingsText</Key>
+      <Value>Настройки</Value>
+    </String>
+    <String>
+      <Key>ExitText</Key>
+      <Value>Выход</Value>
+    </String>
+    <String>
+      <Key>AttackKey</Key>
+      <Value>Атака</Value>
+    </String>
+    <String>
+      <Key>RightKey</Key>
+      <Value>Вправо</Value>
+    </String>
+    <String>
+      <Key>LeftKey</Key>
+      <Value>Влево</Value>
+    </String>
+    <String>
+      <Key>CrouchKey</Key>
+      <Value>Присесть</Value>
+    </String>
+    <String>
+      <Key>JumpKey</Key>
+      <Value>Прыжок</Value>
+    </String>
+    <String>
+      <Key>PressKey</Key>
+      <Value>Нажмите кнопку</Value>
+    </String>
+    <String>
+      <Key>UseKey</Key>
+      <Value>Использовать</Value>
+    </String>
+    <String>
+      <Key>InputText</Key>
+      <Value>Создать</Value>
+    </String>
+    <String>
+      <Key>InputProfileName</Key>
+      <Value>Имя профиля</Value>
+    </String>
+  </Data>
+</LanguageData>

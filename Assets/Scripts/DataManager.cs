@@ -4,18 +4,6 @@ using UnityEngine;
 using System;
 
 [Serializable]
-public struct PortalData
-{
-    public string ObjectName;
-    public Status PortalStatus;
-
-    public PortalData(string Name, Status _PortalStatus)
-    {
-        ObjectName = Name;
-        PortalStatus = _PortalStatus;
-    }
-}
-[Serializable]
 public sealed class DataManager {
     /* Стадии:
      * 0 - начало,
@@ -26,6 +14,15 @@ public sealed class DataManager {
     */
     public int Stage = 0;
     public List<PortalData> Destinations = new List<PortalData>();
+    public PlayerData PlayerData;
+
+    public DataManager()
+    { }
+
+    public DataManager(int Stage)
+    {
+        this.Stage = Stage;
+    }
 
     public void AddPortal(GameObject PortalObj)
     {

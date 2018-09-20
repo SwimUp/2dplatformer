@@ -2,6 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum PlayerStatus : int
+{
+    ALIVE = 0,
+    DEAD,
+    NONSPAWNED
+}
 public sealed class Player : MonoBehaviour {
 
     public static Player instance;
