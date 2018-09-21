@@ -2,9 +2,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Runtime.Serialization.Formatters.Binary;
-
-using System;
-using System.Collections.Generic;
+using System.Xml.Serialization;
 
 public sealed class GameLogic : MonoBehaviour {
 
@@ -15,9 +13,9 @@ public sealed class GameLogic : MonoBehaviour {
     private GameObject EscapeMenu;
 
     public static readonly string LanguagePath = @"Resources/Language/";
-    public static readonly string SettingsPath = @"GameSettings.ini";
+    public static readonly string SettingsPath = @"GameSettings.xml";
     public static readonly string KeysPath = @"PlayerBinds.ini";
-    public static readonly string DataPath = @"Data/playerdata.dat";
+    public static readonly string DataPath = @"Data/";
     //public static readonly string DataPath = @"2d platformer_Data/Data/playerdata.dat";
 
     /* Была ли первичная загрузка данных */
@@ -38,6 +36,9 @@ public sealed class GameLogic : MonoBehaviour {
     public static LoadEventsHandler onFirstLoad;
     public static LoadEventsHandler onGameInit;
     public static LoadEventsHandler onLevelLoad;
+
+    /* Текущий загруженный игрок */
+    public static PlayerInfo cPlayerInfo;
 
     private void Awake()
     {
@@ -66,6 +67,7 @@ public sealed class GameLogic : MonoBehaviour {
         onGameInit?.Invoke();
 
         SceneManager.sceneLoaded += OnSceneLoad;
+
     }
     /* Событие загрузки сцены */
     public void OnSceneLoad(Scene scene, LoadSceneMode mode)
@@ -97,14 +99,6 @@ public sealed class GameLogic : MonoBehaviour {
     }
     public void StartNewGame()
     {
-        if (File.Exists(DataPath))
-            File.Delete(DataPath);
-
-        File.Create(DataPath).Close();
-        DataManager _data = new DataManager();
-        _data.Stage = 0;
-        SavePlayerData(_data);
-
         StartGame = true;
 
         LoadLevel(1, LoadSceneMode.Single);
@@ -114,31 +108,6 @@ public sealed class GameLogic : MonoBehaviour {
         StartGame = true;
         LoadLevel(1, LoadSceneMode.Single);
     }
-    public static DataManager LoadPlayerData()
-    {
-        if (!File.Exists(DataPath))
-            return null;
-
-        BinaryFormatter formatter = new BinaryFormatter();
-        using (FileStream fs = new FileStream(DataPath, FileMode.OpenOrCreate))
-        {
-            DataManager data = (DataManager)formatter.Deserialize(fs);
-
-            return data;
-        }
-    }
-    public static void SavePlayerData(DataManager data)
-    {
-        if (!File.Exists(DataPath))
-            File.Create(DataPath).Close();
-
-        BinaryFormatter formatter = new BinaryFormatter();
-        using (FileStream fs = new FileStream(DataPath, FileMode.OpenOrCreate))
-        {
-            formatter.Serialize(fs, data);
-        }
-
-    }
     /* Escape menu */
     public void ResumeGame()
     {
@@ -146,8 +115,8 @@ public sealed class GameLogic : MonoBehaviour {
     }
     public void ExitGame()
     {
-        if(ElementsAltar.Data != null)
-            SavePlayerData(ElementsAltar.Data);
+        if (ElementsAltar.Data != null)
+            Utility.SerializeData(cPlayerInfo.PathData, ElementsAltar.Data);
 
         Application.Quit();
     }

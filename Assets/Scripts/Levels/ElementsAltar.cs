@@ -15,7 +15,7 @@ public sealed class ElementsAltar : GameLevel {
 
     public override void InitLevel()
     {
-        Data = GameLogic.LoadPlayerData();
+        Data = Utility.DeserializeData(GameLogic.cPlayerInfo.PathData, typeof(DataManager)) as DataManager;
         _mainLevel = GameObject.Find("Level1");
 
         if(Data.Destinations.Count == 0)
@@ -27,7 +27,7 @@ public sealed class ElementsAltar : GameLevel {
                 Data.AddPortal(portal);
             }
 
-            GameLogic.SavePlayerData(Data);
+            Utility.SerializeData(GameLogic.cPlayerInfo.PathData, Data);
         }
         else
         {
@@ -46,7 +46,7 @@ public sealed class ElementsAltar : GameLevel {
             SetPortalData(_portal);
             GameLogic.CurrentPortal = null;
 
-            GameLogic.SavePlayerData(Data);
+            Utility.SerializeData(GameLogic.cPlayerInfo.PathData, Data);
         }
     }
     public override void OnLevelUnload(Scene current)

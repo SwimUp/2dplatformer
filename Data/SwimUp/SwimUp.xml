@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<DataManager xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Stage>0</Stage>
+  <Destinations>
+    <PortalData>
+      <ObjectName>FirePortal1</ObjectName>
+      <PortalStatus>ACTIVE</PortalStatus>
+    </PortalData>
+    <PortalData>
+      <ObjectName>FirePortal2</ObjectName>
+      <PortalStatus>ACTIVE</PortalStatus>
+    </PortalData>
+    <PortalData>
+      <ObjectName>FirePortal3</ObjectName>
+      <PortalStatus>ACTIVE</PortalStatus>
+    </PortalData>
+    <PortalData>
+      <ObjectName>FirePortal4</ObjectName>
+      <PortalStatus>ACTIVE</PortalStatus>
+    </PortalData>
+  </Destinations>
+  <PlayerData />
+</DataManager>

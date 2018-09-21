@@ -25,6 +25,7 @@ public sealed class MainMenu : MonoBehaviour {
     {
         GameObject KeysMenu = GameObject.Find("ContentKeysData");
 
+        /* Создаем кнопки для бинда кнопок */
         foreach(KeyValuePair<string, KeyCode> k in InputManager.KeyBindings)
         {
             GameObject _button = Instantiate(ButtonKey, KeysMenu.transform);
@@ -35,12 +36,16 @@ public sealed class MainMenu : MonoBehaviour {
             name.text = LanguageManager.TextList[k.Key];
             key.text = k.Value.ToString();
         }
+        /* =========================================================== */
 
+        /* Перебираем массив объектов  и заменяем текст в соотв. с именем (имя - ключ) */
         int i;
         for (i = 0; i < MainMenuText.Length; i++)
         {
             MainMenuText[i].text = LanguageManager.TextList[MainMenuText[i].name];
         }
+        /* ============================================== */
+
         LoadMenu(0);
 
         SettingsDrop[0].value = PlayerPrefs.GetInt("ResolutionID", 0);
@@ -66,22 +71,8 @@ public sealed class MainMenu : MonoBehaviour {
         string Language = SettingsManager.UserSettings["Language"];
         GameObject KeysMenu = GameObject.Find("ContentKeysData");
 
-
-        using (StreamWriter sw = new StreamWriter(path, false, System.Text.Encoding.Default))
-        {
-            sw.WriteLine("Resolution = " + Resolution);
-            sw.WriteLine("Language = " + Language);
-        }
-
-
-        using (StreamWriter sw = new StreamWriter(path2, false, System.Text.Encoding.Default))
-        {
-            foreach (KeyValuePair<string, KeyCode> k in InputManager.KeyBindings)
-            {
-                string s = string.Concat(k.Key, " = ", k.Value.ToString());
-                sw.WriteLine(s);
-            }
-        }
+        SettingsManager.SaveSettings();
+        InputManager.SaveSettings();
 
         SetResolution();
 
@@ -103,6 +94,34 @@ public sealed class MainMenu : MonoBehaviour {
         int width = int.Parse(Resolution[0]);
         int height = int.Parse(Resolution[1]);
         Screen.SetResolution(width, height, true);
+    }
+    public void CreateNewProfile(InputField input)
+    {
+        if (input.text.Length <= 0)
+            return;
+
+        string FullplayerPath = string.Concat(GameLogic.DataPath, input.text);
+        DirectoryInfo dirInfo = new DirectoryInfo(FullplayerPath);
+        if(dirInfo.Exists)
+        {
+            return;
+        }
+        else
+        {
+            dirInfo.Create();
+        }
+        string playerPath = string.Concat(dirInfo.FullName, "\\", input.text, ".xml");
+        File.Create(playerPath).Close();
+
+        PlayerInfo pInfo = new PlayerInfo(PlayerStatus.NONSPAWNED, input.text, playerPath);
+        GameLogic.cPlayerInfo = pInfo;
+
+        Debug.Log(GameLogic.cPlayerInfo.PathData);
+
+        DataManager _data = new DataManager(0);
+        Utility.SerializeData(playerPath, _data);
+
+        GameLogic.instance.StartNewGame();
     }
     public void Exit()
     {

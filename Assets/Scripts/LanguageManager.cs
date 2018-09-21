@@ -21,20 +21,18 @@ public sealed class LanguageManager : MonoBehaviour {
         if (GameLogic.isLoad)
             return;
 
-        string _language = GameLogic.LanguagePath + SettingsManager.UserSettings["Language"] + ".txt";
-        if (!File.Exists(_language))
-            _language = GameLogic.LanguagePath + "ru.txt";
+        LanguageData lang = new LanguageData();
 
-        using (StreamReader sr = new StreamReader(_language))
+        string _language = GameLogic.LanguagePath + SettingsManager.UserSettings["Language"] + ".xml";
+        if (!File.Exists(_language))
+            _language = GameLogic.LanguagePath + "ru.xml";
+
+        lang = (LanguageData)Utility.DeserializeData(_language, typeof(LanguageData));
+        int i;
+        for (i = 0; i < lang.LanguageList.Count; i++)
         {
-            string line;
-            string[] splitLine = new string[2];
-            while ((line = sr.ReadLine()) != null)
-            {
-                splitLine = line.Split('=');
-                splitLine[0] = splitLine[0].Replace(" ", "");
-                AddLanguageText(splitLine[0], splitLine[1]);
-            }
+            SettingsData data = lang.LanguageList[i];
+            AddLanguageText(data.Key, data.Value);
         }
     }
     private static bool AddLanguageText(string id, string text)
@@ -45,5 +43,16 @@ public sealed class LanguageManager : MonoBehaviour {
         TextList.Add(id, text);
 
         return true;
+    }
+}
+[System.Serializable]
+public sealed class LanguageData
+{
+    [System.Xml.Serialization.XmlArray(ElementName = "Data")]
+    [System.Xml.Serialization.XmlArrayItem(ElementName = "String")]
+    public List<SettingsData> LanguageList = new List<SettingsData>();
+
+    public LanguageData()
+    {
     }
 }

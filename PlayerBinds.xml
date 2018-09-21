@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<InputData xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <InputList>
+    <Action>
+      <Key>RightKey</Key>
+      <Value>Mouse2</Value>
+    </Action>
+    <Action>
+      <Key>LeftKey</Key>
+      <Value>A</Value>
+    </Action>
+    <Action>
+      <Key>JumpKey</Key>
+      <Value>G</Value>
+    </Action>
+    <Action>
+      <Key>CrouchKey</Key>
+      <Value>C</Value>
+    </Action>
+    <Action>
+      <Key>AttackKey</Key>
+      <Value>K</Value>
+    </Action>
+    <Action>
+      <Key>UseKey</Key>
+      <Value>Z</Value>
+    </Action>
+  </InputList>
+</InputData>

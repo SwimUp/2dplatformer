@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<LanguageData xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Data>
+    <String>
+      <Key>PlayText</Key>
+      <Value>Start game</Value>
+    </String>
+    <String>
+      <Key>LoadGameText</Key>
+      <Value>Load game</Value>
+    </String>
+    <String>
+      <Key>SettingsText</Key>
+      <Value>Settings</Value>
+    </String>
+    <String>
+      <Key>ExitText</Key>
+      <Value>Exit</Value>
+    </String>
+    <String>
+      <Key>AttackKey</Key>
+      <Value>Attack</Value>
+    </String>
+    <String>
+      <Key>RightKey</Key>
+      <Value>Right move</Value>
+    </String>
+    <String>
+      <Key>LeftKey</Key>
+      <Value>Left move</Value>
+    </String>
+    <String>
+      <Key>CrouchKey</Key>
+      <Value>Crouch</Value>
+    </String>
+    <String>
+      <Key>JumpKey</Key>
+      <Value>Jump</Value>
+    </String>
+    <String>
+      <Key>PressKey</Key>
+      <Value>Press key</Value>
+    </String>
+    <String>
+      <Key>UseKey</Key>
+      <Value>Use</Value>
+    </String>
+    <String>
+      <Key>InputText</Key>
+      <Value>Create</Value>
+    </String>
+    <String>
+      <Key>InputProfileName</Key>
+      <Value>Profile name</Value>
+    </String>
+  </Data>
+</LanguageData>

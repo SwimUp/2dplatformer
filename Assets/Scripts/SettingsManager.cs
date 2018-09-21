@@ -1,18 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 
 public sealed class SettingsManager : MonoBehaviour {
 
     public static SettingsManager instance;
 
-    public static Dictionary<string, string> UserSettings = new Dictionary<string, string>();
-    private string[] _basicSettings = new string[]
-    {
-        "Language = ru",
-        "Resolution = 1024x768"
-    };
+    public static readonly Dictionary<string, string> UserSettings = new Dictionary<string, string>();
 
     private void Awake()
     {
@@ -23,32 +18,23 @@ public sealed class SettingsManager : MonoBehaviour {
     }
     public static void LoadSettings()
     {
-        string _settingsPath = GameLogic.SettingsPath;
+        Settings settings = new Settings();
 
+        string _settingsPath = GameLogic.SettingsPath;
         if (!File.Exists(_settingsPath))
         {
-            File.Create(_settingsPath).Close();
-            int i;
-            using (StreamWriter sw = new StreamWriter(_settingsPath, false, System.Text.Encoding.Default))
-            {
-                for(i = 0; i < instance._basicSettings.Length; i++)
-                {
-                    sw.WriteLine(instance._basicSettings[i]);
-                }
-            }
+            settings.SetDefault();
+            Utility.SerializeData(_settingsPath, settings);
         }
 
-        using (StreamReader sr = new StreamReader(_settingsPath, System.Text.Encoding.Default))
+        settings = (Settings)Utility.DeserializeData(_settingsPath, typeof(Settings));
+        int i;
+        for(i = 0; i < settings.SettingsList.Count; i++)
         {
-            string line;
-            string[] splitLine = new string[2];
-            while ((line = sr.ReadLine()) != null)
-            {
-                line = line.Replace(" ", "");
-                splitLine = line.Split('=');
-                AddSettings(splitLine[0], splitLine[1]);
-            }
+            SettingsData data = settings.SettingsList[i];
+            AddSettings(data.Key, data.Value);
         }
+        
     }
     private static bool AddSettings(string Name, string Value)
     {
@@ -58,5 +44,45 @@ public sealed class SettingsManager : MonoBehaviour {
         UserSettings.Add(Name, Value);
 
         return true;
+    }
+    public static void SaveSettings()
+    {
+        Settings settings = new Settings();
+
+        foreach(KeyValuePair<string,string> d in UserSettings)
+        {
+            SettingsData data = new SettingsData(d.Key, d.Value);
+            settings.SettingsList.Add(data);
+        }
+
+        Utility.SerializeData(GameLogic.SettingsPath, settings);
+    }
+}
+[System.Serializable]
+public sealed class Settings
+{
+    [System.Xml.Serialization.XmlArrayItem(ElementName = "Parameter")]
+    public List<SettingsData> SettingsList = new List<SettingsData>();
+
+    [System.NonSerialized]
+    private readonly Dictionary<string, string> _defaultSettings = new Dictionary<string, string>
+    {
+        {"Language", "ru" },
+        {"Resolution", "1024x768" }
+    };
+
+    public Settings()
+    {
+    }
+
+    public void SetDefault()
+    {
+        foreach (KeyValuePair<string, string> d in _defaultSettings)
+        {
+            SettingsList.Add
+                (
+                    new SettingsData(d.Key, d.Value)
+                );
+        }
     }
 }

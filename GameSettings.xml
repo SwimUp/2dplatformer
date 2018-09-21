@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<Settings xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <SettingsList>
+    <Parameter>
+      <Key>Language</Key>
+      <Value>ru</Value>
+    </Parameter>
+    <Parameter>
+      <Key>Resolution</Key>
+      <Value>1024x768</Value>
+    </Parameter>
+  </SettingsList>
+</Settings>
